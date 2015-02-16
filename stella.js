@@ -32,53 +32,113 @@ THE POSSIBILITY OF SUCH DAMAGE.
 
 }}} */
 
-// PLUGIN_INFO {{{
-let PLUGIN_INFO = xml`
-<VimperatorPlugin>
-  <name>Stella</name>
-  <name lang="ja">すてら</name>
-  <description>For Niconico/YouTube/Vimeo, Add control commands and information display(on status line).</description>
-  <description lang="ja">ニコニコ動画/YouTube/Vimeo 用。操作コマンドと情報表示(ステータスライン上に)追加します。</description>
-  <version>0.33.2</version>
-
-  <author mail="anekos@snca.net" homepage="http://d.hatena.ne.jp/nokturnalmortum/">anekos</author>
-  <license>new BSD License (Please read the source code comments of this plugin)</license>
-  <license lang="ja">修正BSDライセンス (ソースコードのコメントを参照してください)</license>
-  <minVersion>2.0</minVersion>
-  <updateURL>https://github.com/vimpr/vimperator-plugins/raw/master/stella.js</updateURL>
-  <detail><![CDATA[
-    == Commands ==
-      :stpl[ay]:
-        play or pause
-      :stpa[use]:
-        pause
-      :stvolume <VOLUME>:
-        set to the specified volume.
-      :stmu[te]:
-        turn on/off mute.
-      :stre[peat]:
-        turn on/off mute.
-      :stco[mment]:
-        turn on/off comment visible.
-      :stse[ek] <TIMECODE>:
-        seek to specified position.
-        TIMECODE formats
-          - :stseek 1:30 # 1分30秒
-          label.style.marginRight = (r || 0) + 'px';
-          - :stseek 90   # 90秒
-      :stse[ek]! <TIMECODE>:
-        seek to the specified position from current position at relatively.
-      :stfe[tch]:
-        fetch and save the video.
-      :stla[rge]:
-        enlarge video screen.
-      :stfu[llscreen]:
-        turn on/off fullscreen.
-      :stqu[ality]:
-        Set video quality.
-
-    == Local Mappings Sample ==
-    >||
+// INFO {{{
+let INFO = xml`
+<plugin name="Stella" version="0.33.2"
+        href="https://github.com/vimpr/vimperator-plugins/blob/master/stella.js"
+        summary="Niconico/YouTube/Vimeo Control and Info"
+        lang="en-US"
+        xmlns="http://vimperator.org/namespaces/liberator">
+  <author href="http://d.hatena.ne.jp/nokturnalmortum/" email="anekos@snca.net">anekos</author>
+  <license>new BSD License</license>
+  <project name="Vimperator" minVersion="2.0"/>
+  <p>For Niconico/YouTube/Vimeo, Add control commands and information display(on status line).</p>
+    <item>
+      <tags><![CDATA[:stplay :stpl]]></tags>
+      <spec>:stpl<oa>ay</oa></spec>
+      <description><p>play or pause</p></description>
+    </item>
+    <item>
+      <tags><![CDATA[:stpause :stpa]]></tags>
+      <spec>:stpa<oa>use</oa></spec>
+      <description><p>pause</p></description>
+    </item>
+    <item>
+      <tags><![CDATA[:stvolume]]></tags>
+      <spec>:stvolume <a>VOLUME</a></spec>
+      <description><p>set to the specified volume.</p></description>
+    </item>
+    <item>
+      <tags><![CDATA[:stmute :stmu]]></tags>
+      <spec>:stmu<oa>te</oa></spec>
+      <description><p>turn on/off mute.</p></description>
+    </item>
+    <item>
+      <tags><![CDATA[:strepeat :stre]]></tags>
+      <spec>:stre<oa>peat</oa></spec>
+      <description><p>turn on/off repeat.</p></description>
+    </item>
+    <item>
+      <tags><![CDATA[:stcomment :stco]]></tags>
+      <spec>:stco<oa>mment</oa></spec>
+      <description><p>turn on/off comment visible.</p></description>
+    </item>
+    <item>
+      <tags><![CDATA[:stseek :stse]]></tags>
+      <spec>:stse<oa>ek</oa> <a>TIMECODE</a></spec>
+      <description>
+        <p>seek to specified position.
+           <a>TIMECODE</a> formats</p>
+        <dl>
+          <dt><ex>:stseek 1:30</ex></dt><dd> # 1 minutes 30 secons</dd>
+          <dt><ex>:stseek 1.5</ex></dt><dd>  # 1.5 minutes (90 seconds)</dd>
+          <dt><ex>:stseek 90</ex></dt><dd>   # 90 seconds</dd>
+        </dl>
+      </description>
+    </item>
+    <item>
+      <tags><![CDATA[:stseek! :stse!]]></tags>
+      <spec>:stse<oa>ek</oa>! <a>TIMECODE</a></spec>
+      <description><p>seek to the specified position from current position at relatively.</p></description>
+    </item>
+    <item>
+      <tags><![CDATA[:stfetch :stfe]]></tags>
+      <spec>:stfe<oa>tch</oa></spec>
+      <description><p>fetch and save the video.</p></description>
+    </item>
+    <item>
+      <tags><![CDATA[:stlarge :stla]]></tags>
+      <spec>:stla<oa>rge</oa></spec>
+      <description><p>enlarge video screen.</p></description>
+    </item>
+    <item>
+      <tags><![CDATA[:stfullscreen :stfu]]></tags>
+      <spec>:stfu<oa>llscreen</oa></spec>
+      <description><p>turn on/off fullscreen.</p></description>
+    </item>
+    <item>
+      <tags><![CDATA[:stquality :stqu]]></tags>
+      <spec>:stqu<oa>ality</oa></spec>
+      <description><p>Set video quality.</p></description>
+    </item>
+    <item>
+      <tags>stella_Controls</tags>
+      <spec>Controls</spec>
+      <description>
+      <dl>
+        <dt>Mouse wheel:</dt><dd>       Adjust volume with a scroll wheel</dd>
+        <dt>Click time:</dt><dd>        Seek time by clicking the time control
+            Click left to the beginning, or click right to the end.</dd>
+        <dt>Click icon:</dt><dd>        Toggle play/pause</dd>
+        <dt>Double click icon:</dt><dd> Toggle full-screen</dd>
+        <dt>Click c/f/l/m/r:</dt><dd>   Toggle the following functions.
+            (Upper case: On / Lower case: Off)
+          <dl>
+            <dt>C:</dt><dd>  Comment</dd>
+            <dt>F:</dt><dd>  Full-screen (by Stella plugin)</dd>
+            <dt>L:</dt><dd>  Large-screen</dd>
+            <dt>M:</dt><dd>  Mute</dd>
+            <dt>R:</dt><dd>  Repeat</dd>
+          </dl>
+        </dd>
+      </dl>
+      </description>
+    </item>
+    <item>
+      <tags>stella_Local_Mappings_Sample</tags>
+      <spec>Local Mappings Sample</spec>
+    </item>
+    <code><![CDATA[
 function addLocalMappings(buffer, maps) {
   maps.forEach(
     function (map) {
@@ -128,65 +188,120 @@ addLocalMappings(
     ['O',     ':strelations! ',   {open: true}],
   ]
 );
-||<
-
-  ]]></detail>
-  <detail lang="ja"><![CDATA[
-    == Commands ==
-      :stpl[ay]:
-        再生/ポーズの解除を行う。
-      :stpa[use]:
-        一時停止する。
-      :stvolume <VOLUME>:
-        指定の音量にする。
-        0から100の数字で指定する。
-      :stmu[te]:
-        ミュートのOn/Offを切り替える。
-      :stre[peat]:
-        リピートモードのOn/Offを切り替える。
-      :stco[mment]:
-        コメントのOn/Offを切り替える。
-      :stse[ek] <TIMECODE>:
-        指定の秒数までシークする。
-        TIMECODE は以下の様に指定できる。
-          - :stseek 1:30 # 1分30秒
-          - :stseek 1.5  # 1.5分。90秒
-          - :stseek 90   # 90秒
-      :stse[ek]! <TIMECODE>:
-        現在の位置から TIMECODE 分移動する。
-      :stfe[tch]:
-        動画をファイルとして保存する。
-      :stla[rge]:
-        画面を大きくする/戻す。
-      :stfu[llscreen]:
-        フルスクリーン表示のOn/Offを切り替える。
-      :stqu[ality]:
-        動画の品質を設定
-    == Controls ==
-      マウスのホイール:
-        パネル上でホイールの上下することにより音量を上下できます
-      時間をクリック:
-        再生時間をの表示をクリックすることでシークできます。
-        左の方をクリックすれば最初の方に、右の方をクリックすれば最後の方に跳びます。
-      アイコンをクリック:
-        再生・ポーズ
-      アイコンをダブルクリック:
-        フルスクリーン切り替え
-      パネルの cflmr をクリック:
-        以下の機能をオンオフします。
-        (大文字の時がオン)
-          C:
-            コメント
-          F:
-            フルスクリーン (Stella によるもの)
-          L:
-            大画面
-          M:
-            ミュート(消音)
-          R:
-            リピート
-    == Local Mappings Sample ==
-    >||
+    ]]></code>
+    <item>
+      <tags>stella_Link</tags>
+      <spec>Link</spec>
+      <description>
+        <link topic="http://d.hatena.ne.jp/nokturnalmortum/20081213/1229168832">http://d.hatena.ne.jp/nokturnalmortum/20081213/1229168832</link>
+      </description>
+    </item>
+</plugin>
+<plugin name="Stella" version="0.33.2"
+        href="https://github.com/vimpr/vimperator-plugins/blob/master/stella.js"
+        summary="ニコニコ動画/YouTube/Vimeo 用の操作コマンドと情報表示"
+        lang="ja"
+        xmlns="http://vimperator.org/namespaces/liberator">
+  <author href="http://d.hatena.ne.jp/nokturnalmortum/" email="anekos@snca.net">anekos</author>
+  <license>new BSD License</license>
+  <project name="Vimperator" minVersion="2.0"/>
+  <p>ニコニコ動画/YouTube/Vimeo 用の操作コマンドと(ステータスライン上に)情報表示を追加します。</p>
+    <item>
+      <tags><![CDATA[:stplay :stpl]]></tags>
+      <spec>:stpl<oa>ay</oa></spec>
+      <description><p>再生/ポーズの解除を行う。</p></description>
+    </item>
+    <item>
+      <tags><![CDATA[:stpause :stpa]]></tags>
+      <spec>:stpa<oa>use</oa></spec>
+      <description><p>一時停止する。</p></description>
+    </item>
+    <item>
+      <tags><![CDATA[:stvolume]]></tags>
+      <spec>:stvolume <a>VOLUME</a></spec>
+      <description><p>指定の音量にする。0から100の数字で指定する。</p></description>
+    </item>
+    <item>
+      <tags><![CDATA[:stmute :stmu]]></tags>
+      <spec>:stmu<oa>te</oa></spec>
+      <description><p>ミュートのOn/Offを切り替える。</p></description>
+    </item>
+    <item>
+      <tags><![CDATA[:strepeat :stre]]></tags>
+      <spec>:stre<oa>peat</oa></spec>
+      <description><p>リピートモードのOn/Offを切り替える。</p></description>
+    </item>
+    <item>
+      <tags><![CDATA[:stcomment :stco]]></tags>
+      <spec>:stco<oa>mment</oa></spec>
+      <description><p>コメントのOn/Offを切り替える。</p></description>
+    </item>
+    <item>
+      <tags><![CDATA[:stseek :stse]]></tags>
+      <spec>:stse<oa>ek</oa> <a>TIMECODE</a></spec>
+      <description>
+        <p>指定の秒数までシークする。
+           <a>TIMECODE</a> は以下の様に指定できる。</p>
+        <dl>
+          <dt><ex>:stseek 1:30</ex></dt><dd> # 1分30秒</dd>
+          <dt><ex>:stseek 1.5</ex></dt><dd>  # 1.5分。90秒</dd>
+          <dt><ex>:stseek 90</ex></dt><dd>   # 90秒</dd>
+        </dl>
+      </description>
+    </item>
+    <item>
+      <tags><![CDATA[:stseek! :stse!]]></tags>
+      <spec>:stse<oa>ek</oa>! <a>TIMECODE</a></spec>
+      <description><p>現在の位置から <a>TIMECODE</a> 分移動する。</p></description>
+    </item>
+    <item>
+      <tags><![CDATA[:stfetch :stfe]]></tags>
+      <spec>:stfe<oa>tch</oa></spec>
+      <description><p>動画をファイルとして保存する。</p></description>
+    </item>
+    <item>
+      <tags><![CDATA[:stlarge :stla]]></tags>
+      <spec>:stla<oa>rge</oa></spec>
+      <description><p>画面を大きくする/戻す。</p></description>
+    </item>
+    <item>
+      <tags><![CDATA[:stfullscreen :stfu]]></tags>
+      <spec>:stfu<oa>llscreen</oa></spec>
+      <description><p>フルスクリーン表示のOn/Offを切り替える。</p></description>
+    </item>
+    <item>
+      <tags><![CDATA[:stquality :stqu]]></tags>
+      <spec>:stqu<oa>ality</oa></spec>
+      <description><p>動画の品質を設定</p></description>
+    </item>
+    <item>
+      <tags>stella_Controls</tags>
+      <spec>Controls</spec>
+      <description>
+      <dl>
+        <dt>マウスのホイール:</dt><dd>         パネル上でホイールの上下することにより音量を上下できます</dd>
+        <dt>時間をクリック:</dt><dd>           再生時間をの表示をクリックすることでシークできます。
+            左の方をクリックすれば最初の方に、右の方をクリックすれば最後の方に跳びます。</dd>
+        <dt>アイコンをクリック:</dt><dd>       再生・ポーズ</dd>
+        <dt>アイコンをダブルクリック:</dt><dd> フルスクリーン切り替え</dd>
+        <dt>パネルの cflmr をクリック:</dt><dd>以下の機能をオンオフします。
+            (大文字の時がオン)
+          <dl>
+            <dt>C:</dt><dd>  コメント</dd>
+            <dt>F:</dt><dd>  フルスクリーン (Stella によるもの)</dd>
+            <dt>L:</dt><dd>  大画面</dd>
+            <dt>M:</dt><dd>  ミュート(消音)</dd>
+            <dt>R:</dt><dd>  リピート</dd>
+          </dl>
+        </dd>
+      </dl>
+      </description>
+    </item>
+    <item>
+      <tags>stella_Local_Mappings_Sample</tags>
+      <spec>Local Mappings Sample</spec>
+    </item>
+    <code><![CDATA[
 function addLocalMappings(buffer, maps) {
   maps.forEach(
     function (map) {
@@ -236,11 +351,15 @@ addLocalMappings(
     ['O',     ':strelations! ',   {open: true}],
   ]
 );
-||<
-    == Link ==
-      http://d.hatena.ne.jp/nokturnalmortum/20081213/1229168832
-  ]]></detail>
-</VimperatorPlugin>`;
+    ]]></code>
+    <item>
+      <tags>stella_Link</tags>
+      <spec>Link</spec>
+      <description>
+        <link topic="http://d.hatena.ne.jp/nokturnalmortum/20081213/1229168832">http://d.hatena.ne.jp/nokturnalmortum/20081213/1229168832</link>
+      </description>
+    </item>
+</plugin>`;
 // }}}
 
 /* {{{
